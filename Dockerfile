@@ -3,6 +3,7 @@ MAINTAINER rmkn
 
 COPY bot.js /usr/local/botkit/
 WORKDIR /usr/local/botkit
-RUN npm -ssave install botkit request
+RUN npm -save install botkit request
+RUN npm -save install request-debug
 
 CMD ["node", "bot.js"]

@@ -11,8 +11,6 @@ controller.spawn({
 controller.hears('(.*)',['direct_message','direct_mention','mention'],function(bot,message) {
     bot.api.users.info({user:message.user},function(err,response) {
       if (!err) {
-        var currentUser = response["user"];
-
         var msg = {
           type: message.type,
           user: message.user,
@@ -22,6 +20,7 @@ controller.hears('(.*)',['direct_message','direct_mention','mention'],function(b
         }
 
         var webclient = require("request");
+        webclient.debug = true;
         webclient.post({
           url: process.env.URL,
           headers: {
