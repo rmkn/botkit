@@ -6,17 +6,31 @@ var controller = Botkit.slackbot({
 
 controller.spawn({
     token: process.env.TOKEN
-}).startRTM()
+}).startRTM();
 
 controller.hears('(.*)',['direct_message','direct_mention','mention'],function(bot,message) {
     bot.api.users.info({user:message.user},function(err,response) {
+      var uname = message.user;
+      var rname = message.user;
       if (!err) {
+          uname = response.user.name;
+          rname = response.user.real_name;
+      }
+
+      bot.api.channels.info({channel:message.channel},function(err,responsec) {
+        var cname = message.type;
+        if (!err) {
+          cname = responsec.channel.name;
+        }
+
         var msg = {
           type: message.type,
           user: message.user,
           text: message.text,
-          name: response.user.name,
-          real_name: response.user.real_name
+          channel: message.channel,
+          channel_name: cname,
+          name: uname,
+          real_name: rname
         }
 
         var webclient = require("request");
@@ -29,9 +43,9 @@ controller.hears('(.*)',['direct_message','direct_mention','mention'],function(b
           body: JSON.stringify(msg)
         }, function (error, response, body) {
           if (response.statusCode == 200) {
-            bot.reply(message,body);
+            bot.reply(message, body);
           }
         });
-      }
+      });
     });
 });
