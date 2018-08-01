@@ -8,7 +8,7 @@ controller.spawn({
     token: process.env.TOKEN
 }).startRTM();
 
-controller.hears('(.*)',['direct_message','direct_mention','mention'],function(bot,message) {
+controller.hears('(.*)',[REACTION],function(bot,message) {
     bot.api.users.info({user:message.user},function(err,response) {
       var uname = message.user;
       var rname = message.user;
@@ -27,6 +27,7 @@ controller.hears('(.*)',['direct_message','direct_mention','mention'],function(b
           type: message.type,
           user: message.user,
           text: message.text,
+          thread_ts: message.thread_ts,
           channel: message.channel,
           channel_name: cname,
           name: uname,
