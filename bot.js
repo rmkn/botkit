@@ -34,19 +34,23 @@ controller.hears('(.*)',[REACTION],function(bot,message) {
           real_name: rname
         }
 
-        var webclient = require("request");
-        webclient.debug = true;
-        webclient.post({
-          url: process.env.URL,
-          headers: {
-            "contest-type": "application/json"
-          },
-          body: JSON.stringify(msg)
-        }, function (error, response, body) {
-          if (response.statusCode == 200) {
-            bot.reply(message, body);
-          }
-        });
+        try {
+          var webclient = require("request");
+          webclient.debug = true;
+          webclient.post({
+            url: process.env.URL,
+            headers: {
+              "contest-type": "application/json"
+            },
+            body: JSON.stringify(msg)
+          }, function (error, response, body) {
+            if (response && response.statusCode == 200) {
+              bot.reply(message, body);
+            }
+          });
+        } catch (e) {
+              bot.reply(message, "error");
+        }
       });
     });
 });
