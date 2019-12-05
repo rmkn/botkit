@@ -45,11 +45,20 @@ controller.hears('(.*)',[REACTION],function(bot,message) {
             body: JSON.stringify(msg)
           }, function (error, response, body) {
             if (response && response.statusCode == 200) {
-              bot.reply(message, body);
+              try {
+                var mobj = JSON.parse(body);
+                if (mobj.text == null) {
+                    bot.reply(message, body);
+                } else {
+                    bot.reply(message, mobj);
+                }
+              } catch (e) {
+                bot.reply(message, body);
+              }
             }
           });
         } catch (e) {
-              bot.reply(message, "error");
+          bot.reply(message, "error");
         }
       });
     });
