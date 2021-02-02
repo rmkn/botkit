@@ -17,7 +17,7 @@ controller.hears('(.*)',[REACTION],function(bot,message) {
           rname = response.user.real_name;
       }
 
-      bot.api.channels.info({channel:message.channel},function(err,responsec) {
+      bot.api.conversations.info({channel:message.channel},function(err,responsec) {
         var cname = message.type;
         if (!err) {
           cname = responsec.channel.name;
