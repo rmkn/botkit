@@ -31,7 +31,8 @@ controller.hears('(.*)',[REACTION],function(bot,message) {
           channel: message.channel,
           channel_name: cname,
           name: uname,
-          real_name: rname
+          real_name: rname,
+          ts: message.ts
         }
 
         try {
